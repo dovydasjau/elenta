@@ -107,12 +107,13 @@ public class test2 {
         driver.findElement(By.xpath("/html/body/div[1]/div[3]/input[2]")).click(); // clicking the next button
 
         driver.findElement(By.xpath("/html/body/div[1]/ul/li/div/h3/a")).click(); // opening the listing
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
-
-        resultText = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[2]/div[1]/div[1]/div[2]/a"));
+        resultText = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/div[1]/div[1]/div[2]/a"));
         Assert.assertEquals(resultText.getText(), randomPhoneNumber);
 
-        resultText = driver.findElement(By.xpath("/html/body/div[2]/div[3]/div[1]/div[3]"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        resultText = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div[3]"));
         Assert.assertEquals(resultText.getText(), "Oh jeepers " + randomPassword);
 
         System.out.println(driver.getCurrentUrl()); // printing the listings link
