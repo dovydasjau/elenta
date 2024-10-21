@@ -3,12 +3,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
 public class test2 {
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        driver = new ChromeDriver();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
 //    @Test
 //    public void test1(){
 //        WebDriver driver = new ChromeDriver();
@@ -18,7 +34,6 @@ public class test2 {
 
     @Test
     public void test2() {
-        WebDriver driver = new ChromeDriver();
         driver.get("https://elenta.lt/registracija");
 
         WebElement cookieButton = driver.findElement(By.xpath("/html/body/div[3]/div[2]/div[1]/div[2]/div[2]/button[1]"));
@@ -28,7 +43,6 @@ public class test2 {
         String randomName = generateRandomName();//random name
         String randomEmail = generateRandomEmail();//random email
 
-
         driver.findElement(By.xpath("/html/body/div[1]/form/fieldset/table/tbody/tr[1]/td[2]/input")).sendKeys(randomName); //setting the random name string to the "vartotojo vardas" text box
         driver.findElement(By.xpath("/html/body/div[1]/form/fieldset/table/tbody/tr[4]/td[2]/input")).sendKeys(randomEmail); //setting the random email string to the "el. pasto adresas" text box
 
@@ -37,7 +51,6 @@ public class test2 {
         driver.findElement(By.xpath("/html/body/div[1]/form/fieldset/table/tbody/tr[7]/td[2]/input")).sendKeys(randomPassword);//setting the random password string to the "slaptazodis" text box
         driver.findElement(By.xpath("/html/body/div[1]/form/fieldset/table/tbody/tr[8]/td[2]/input")).sendKeys(randomPassword);//repeating the step above to the repeated password text box
         driver.findElement(By.xpath("/html/body/div[1]/form/fieldset/table/tbody/tr[11]/td[2]/input")).click(); //clicking submit
-
 
         WebElement resultText = driver.findElement(By.xpath("/html/body/div[1]/div[2]/h1/b"));
         Assert.assertEquals(resultText.getText(), "Jūs sėkmingai prisiregistravote!");
@@ -79,14 +92,14 @@ public class test2 {
             driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[5]/input")).sendKeys(randomPhoneNumber); // listing phone number
             driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[6]/input")).sendKeys(randomEmail); // listing email
             driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[7]/input[2]")).click(); // clicking next button
-        }else {
+        } else {
             try {
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[3]/div/input")).sendKeys("Kaunas"); // listing city
                 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3)); // wait 3 seconds for the popup to show up
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[4]/input")).sendKeys(randomPhoneNumber); // listing phone number
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[5]/input")).sendKeys(randomEmail); // listing email
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[6]/input[2]")).click(); // clicking next button
-            }catch (Exception e){
+            } catch (Exception e) {
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[3]/input")).sendKeys(Integer.toString(randomNum)); // listing price
                 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3)); // wait 3 seconds for the popup to show up
                 driver.findElement(By.xpath("/html/body/div[1]/div[2]/form/div[5]/input")).sendKeys(randomPhoneNumber); // listing phone number
@@ -118,9 +131,7 @@ public class test2 {
 
         System.out.println(driver.getCurrentUrl()); // printing the listings link
 
-        driver.close(); // closing the browser
-
-//        }
+//                }
 
 
 //        driver.get("https://elenta.lt/prisijungti?returnurl=https%3A%2F%2Felenta.lt%2F"); //opening the login page
@@ -221,6 +232,4 @@ public class test2 {
 
         return phoneNumber.toString();
     }
-
-
 }
